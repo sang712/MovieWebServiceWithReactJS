@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 <html>
   <body>
-    
+    <button id="btn">Click me</button>
   </body>
   <script>
-    
+    // querySelector를 쓰지 않는 이유는 버튼이 여러개일 수 있기 때문에
+    // button 태그에 id를 부여하고 해당 id로 엘레먼트를 가져오는 getElementById를 사용함
+    const button = document.getElementById("btn");
+    function handleClick() {
+      console.log("I have been clicked");
+    }
+    // 버튼 엘레먼트에서 click이라는 이벤트가 발생하면 handleClick이라는 함수를 호출하도록 함
+    // 호출하는 함수가 없으면 콘솔에 에러남
+    button.addEventListener("click", handleClick);
   </script>
 </html>
