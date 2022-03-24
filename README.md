@@ -30,3 +30,43 @@
 * 2번 querySelector를 쓰지 않는 이유는 버튼이 여러개일 수 있기 때문에 button 태그에 id를 부여하고 해당 id로 엘레먼트를 가져오은 getElementById를 사용함.
 * 3번 버튼 엘레먼트에서 click이라는 이벤트가 발생하면 handleClick이라는 함수를 호출함. 만약 호출하는 함수가 없으면 콘솔에 에러남
 
+### 카운터 만들기
+
+1. span HTML 엘레먼트 생성
+
+2. 자바 스크립트에서 counter 변수 생성
+
+3. 버튼이 클릭되면 호출되는 함수에서 카운터를 1 증가시킴
+
+   3-1. 스크립트 내에서 카운터가 올라가더라도 HTML를 새로고침 해주지 않기 때문에 화면에선 변화가 없음
+
+4. span 태그를 자바스크립트로 가져오기
+5. 버튼이 클릭되면 호출되는 함수에서 span의 innerText를 변경하기
+
+```html
+<!DOCTYPE html>
+<html>
+  <body>
+    <!-- 1. 스팬 html 엘레먼트 생성 -->
+    <span>Total clicks: 0</span>
+    <button id="btn">Click me</button>
+  </body>
+  <script>
+    // 2. 자바 스크립트에서 counter 변수 생성
+    let counter = 0;
+    const button = document.getElementById("btn");
+    // 4. span 태그를 자바스크립트로 가져오기
+    const span = document.querySelector("span");
+    function handleClick() {
+      // 3. 버튼이 클릭되면 호출되는 함수에서 카운터를 1 증가시킴
+      counter = counter + 1;
+      // 5. 버튼이 클릭되면 호출되는 함수에서 span의 innerText를 변경하기
+      span.innerText = `Total clicks: ${counter}`;
+      console.log("I have been clicked");
+    }
+    button.addEventListener("click", handleClick);
+  </script>
+</html>
+```
+
+* 5번 innerText를 변경하는 부분에서 \`\` 백틱으로 묶어서 `${}`에 변수를 입력하여 사용할 수 있음
