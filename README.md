@@ -1,5 +1,5 @@
 # The Basics of React
-## 1. 바닐라 자바스크립트로 카운터 버튼 만들기
+## 1. 바닐라 JS로 카운터 버튼 만들기
 ### 기본 구조 만들기
 
 1. 버튼 html 엘레먼트 생성
@@ -82,3 +82,20 @@
 5. HTML을 업데이트 한다
 
 **React.JS에서는 더 간편한 방법으로 같은 기능을 구현할 수 있다**
+
+## 2. 리액트 JS로 카운터 버튼 만들기
+
+### 시작하기
+
+React를 다운 받아야 하므로 CDN을 추가하여 다운로드를 대신 하자
+
+```html
+<!DOCTYPE html>
+<html>
+  <body></body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <script></script>
+</html>
+```
+
