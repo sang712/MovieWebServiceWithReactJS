@@ -1,7 +1,29 @@
 <!DOCTYPE html>
 <html>
-  <body></body>
+  <body>
+    <div id="root"></div>
+  </body>
   <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
-  <script></script>
+  <script>
+    /* 리액트를 어려운 방법으로 사용하기 
+    1. React로 엘레멘트를 하나 생성함
+    2. ReactDOM으로 렌더를 하면 되는데
+    2-1. 렌더를 할 곳을 정해줘야함
+    3. body 태그에 root라는 id로 div 태그를 하나 생성하고
+    4. JS에서 엘레멘트를 가져옴
+    5. ReactDOM으로 렌더함
+    6. createElement의 두번째 인자를 딕셔너리 형태로 넣으면 property를 설정할 수 있음
+    7. createElement의 세번째 인자에는 content가 들어감
+    */
+    const root = document.getElementById("root");
+    // 앞의 변수명은 상관 없지만 함수 내부에 사용된 이름은 HTML 태그와 같아야 함
+    const span = React.createElement(
+      "span",
+      { id: "my-span", style: { color: "red" } },
+      "Hello, I'm a span"
+    );
+    // 방금 만든 react 엘레멘트를 ReactDOM을 이용해 화면에 렌더 함
+    ReactDOM.render(span, root);
+  </script>
 </html>
