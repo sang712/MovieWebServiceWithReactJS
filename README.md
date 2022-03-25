@@ -85,7 +85,7 @@
 
 ## 2. 리액트 JS로 카운터 버튼 만들기
 
-### 시작하기
+### 0. 시작하기
 
 React를 다운 받아야 하므로 CDN을 추가하여 다운로드를 대신 하자
 
@@ -99,7 +99,9 @@ React를 다운 받아야 하므로 CDN을 추가하여 다운로드를 대신 �
 </html>
 ```
 
-### 리액트를 어려운 방법으로 사용하기
+### 1. 리액트를 어려운 방법으로 사용하기 - (1)
+
+#### 리액트로 엘레멘트 생성하기
 
 1. React로 엘레멘트를 하나 생성함
 2. ReactDOM으로 렌더를 하면 되는데
@@ -138,3 +140,71 @@ React를 다운 받아야 하므로 CDN을 추가하여 다운로드를 대신 �
 ```
 
 * React.createElement를 사용할 때 앞의 변수 명은 상관 없지만 함수 내부에 사용된 이름은 HTML 태그와 같아야 함.
+
+#### 정리
+
+* 바닐라 JS에서는 HTML을 생성하고 이것을 JS로 가져와서 조작하는 것이고
+* 리액트 JS에서는 JS에서 HTML을 생성해 조작하고, 필요한 것이 있으면 HTML로 가서 따로 생성하는 것이다.
+
+
+
+### 2. 리액트를 어려운 방법으로 사용하기 - (2)
+
+#### 리액트로 이벤트 다루기
+
+1. 버튼 하나 생성, 프로퍼티 없이(null로), content로는 Click me라는 글씨
+2. ReactDOM으로 버튼과 버튼이 들어간 root를 렌더 함
+3. 아까 사용한 span태그도 한번에 렌더 하려면
+4. div태그를 새로 만들고
+5. 그 div 태그에 span태그와 버튼을 넣고
+6. 해당 div 태그를 렌더하면 됨
+7. 버튼을 누르면 변화하게 하고 싶다면 onClick 함수를 화살표 함수로 property에 넣어서 사용하면 됨
+8. 위의 span 태그에도 마우스를 호버하면 반응하도록 onMouseEnter 함수를 사용함
+
+```html
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <script>
+    const root = document.getElementById("root");
+    // 3. 아까 사용한 span태그 수정
+    const h3 = React.createElement(
+      "h3",
+      {
+        id: "title",
+        // 8. 마우스 호버 이벤트리스너 추가
+        onMouseEnter: () => console.log("Mouse entered"),
+      },
+      "Hello, I'm a span"
+    );
+    // 1. 버튼 하나 생성, 프로퍼티 없이(null로), content로는 Click me라는 글씨
+    const btn = React.createElement(
+      "button",
+      {
+        // 7. 버튼 클릭 이벤트리스너 추가
+        onClick: () => console.log("I'm clicked"),
+        style: {
+          backgroundColor: "tomato",
+        },
+      },
+      "Click me"
+    );
+    // 4. 5. div태그를 새로 만들기
+    const container = React.createElement("div", null, [h3, btn]);
+    // 2. 6. ReactDOM으로 버튼과 타이틀이 들어간 div를 root에 넣어 렌더 함
+    ReactDOM.render(container, root);
+  </script>
+</html>
+```
+
+* 엘레멘트를 생성할 때 앞의 함수명은 JS에서 불릴 이름이고 함수의 인자로 사용되는 것은 HTML의 태그와 같아야 함
+* property에 `style: {}`과 같이 eventLIstener도 `onClick: () => ` 으로 넣을 수 있음
+
+#### 정리
+
+* 지금까지의 과정은 사용자들과 구성요소간의 상호작용들을 위한 작업이며, event로 감지해서 동작을 시킴
+* 이 과정을 바닐라JS에서는 4단계 과정을 거쳐야하지만 리액트에서는 한줄의 코드로 줄여서 개발할 수 있음
