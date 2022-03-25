@@ -99,3 +99,42 @@ React를 다운 받아야 하므로 CDN을 추가하여 다운로드를 대신 �
 </html>
 ```
 
+### 리액트를 어려운 방법으로 사용하기
+
+1. React로 엘레멘트를 하나 생성함
+2. ReactDOM으로 렌더를 하면 되는데
+
+   2-1. 렌더를 할 곳을 정해줘야함
+
+3. body 태그에 root라는 id로 div 태그를 하나 생성하고
+
+4. JS에서 엘레멘트를 가져옴
+5. ReactDOM으로 렌더함
+6. createElement의 두번째 인자를 딕셔너리 형태로 넣으면 property를 설정할 수 있음
+7. createElement의 세번째 인자에는 content가 들어감
+
+```html
+<!DOCTYPE html>
+<html>
+  <body>
+    <!-- 3. body 태그에 root라는 id로 div 태그를 하나 생성함 -->
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <script>
+    // 4. JS에서 엘레멘트를 가져옴
+    const root = document.getElementById("root");
+    // 1. 6. 7. React.createElement(<str:html이름>, {스타일}, <str:컨텐츠>)
+    const span = React.createElement(
+      "span",
+      { id: "my-span", style: { color: "red" } },
+      "Hello, I'm a span"
+    );
+    // 2. 5. ReactDOM으로 렌더함 ReactDOM.render(<렌더할 객체>, <렌더될 공간>)
+    ReactDOM.render(span, root);
+  </script>
+</html>
+```
+
+* React.createElement를 사용할 때 앞의 변수 명은 상관 없지만 함수 내부에 사용된 이름은 HTML 태그와 같아야 함.
