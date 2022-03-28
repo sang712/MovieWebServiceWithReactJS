@@ -208,3 +208,182 @@ React를 다운 받아야 하므로 CDN을 추가하여 다운로드를 대신 �
 
 * 지금까지의 과정은 사용자들과 구성요소간의 상호작용들을 위한 작업이며, event로 감지해서 동작을 시킴
 * 이 과정을 바닐라JS에서는 4단계 과정을 거쳐야하지만 리액트에서는 한줄의 코드로 줄여서 개발할 수 있음
+
+## 3. JSX 사용하기
+
+위에서 작성한 React 어렵게 사용하기에서 만든 엘레멘트들을 JSX 문법으로 만들어서 비교를 할 예정
+
+단 JSX를 사용하면 브라우저가 못 알아듣기 때문에 이를 번역해주기(React.createElement로)위해 Babel을 사용함
+
+### 시작하기
+
+Babel CDN을 추가
+
+`<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>` 
+
+하단에 작성된 script 태그의 타입을 지정해 주어야 함 
+
+`<script>`태그를 `<script type="text/babel">` 로 수정
+
+```html
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    /*
+    중략
+    */
+  </script>
+</html>
+```
+
+### JSX 문법 사용하기 - 컴포넌트 선언
+
+JSX문법이라고 크게 달라진 것은 없음
+
+* 바로 <>로 태그형식으로 선언할 수 있음 
+* 내부에 작성했던 프로퍼티를 `:`으로 관계를 설정하는 것이 아니라 `=`으로 관계를 설정하고`{}`로 우항을 잘 감싸주면 됨
+* 각각의 프로퍼티는 `,`로 구분하는 것이 아니라 `공백`으로 구분됨
+
+```js
+//JS 문법으로 엘레멘트 생성
+const h3 = React.createElement(
+  "h3",
+  {
+    id: "title",
+    onMouseEnter: () => console.log("Mouse entered"),
+  },
+  "Hello, I'm a span"
+); 
+```
+
+```jsx
+//JSX 문법으로 컴포넌트 선언
+const Title = () => (
+  <h3 id="title" onMouseEnter={() => console.log("Mouse entered")}>
+    "Hello, I'm a span"
+  </h3>
+);
+```
+
+
+
+
+
+엘레멘트를 컨테이너 안에 넣은 채로 createElement하면 됐지만 JSX로 안에 넣으려면 엘레멘트를 함수 형식으로 선언해야함
+
+그래서 화살표함수나 그냥 함수 형태로 선언해야함
+
+### 화살표함수와 일반 함수 형태의 비교
+
+화살표 함수의 형태는 `const Name = () => ();` 꼴이며 화살표 이후의 `();` 안에 html 형식으로 작성함
+
+일반 함수의 형태는 `function name() {}` 꼴이며 function의 `{}` 안에는 `return(내용물);` 로 작성이 됨(세미 콜론으로 끝내야 함)
+
+```jsx
+// 화살표 함수
+const Title = () => (
+  <h3 id="title" onMouseEnter={() => console.log("Mouse entered")}>
+    "Hello, I'm a span"
+  </h3>
+);
+```
+
+```jsx
+// 함수
+function Title() {
+  return (
+    <h3 id="title" onMouseEnter={() => console.log("Mouse entered")}>
+      "Hello, I'm a span"
+    </h3>
+  );
+}
+```
+
+
+
+### 정리
+
+```jsx
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const root = document.getElementById("root");
+    // 화살표 함수형 선언
+    const Title = () => (
+      <h3 id="title" onMouseEnter={() => console.log("Mouse entered")}>
+        "Hello, I'm a span"
+      </h3>
+    );
+    /* 기본 함수형 선언
+    function Title() {
+      return (
+        <h3 id="title" onMouseEnter={() => console.log("Mouse entered")}>
+          "Hello, I'm a span"
+        </h3>
+      );
+    } 
+    */
+    /* 바닐라 JS 형태
+    const h3 = React.createElement(
+      "h3",
+      {
+        id: "title",
+        onMouseEnter: () => console.log("Mouse entered"),
+      },
+      "Hello, I'm a span"
+    ); 
+    */
+    const Button = () => (
+      <button
+        style={{ backgroundColor: "tomato" }}
+        onClick={() => console.log("I'm clicked")}
+      >
+        "Click me"
+      </button>
+    );
+    /* 
+    const btn = React.createElement(
+      "button",
+      {
+        onClick: () => console.log("I'm clicked"),
+        style: {
+          backgroundColor: "tomato",
+        },
+      },
+      "Click me"
+    ); 
+    */
+    // 화살표 함수형 중첩 컴포넌트 선언
+    const Container = () => (
+      <div>
+        <Title />
+        <Button />
+      </div>
+    );
+    /* 기존 함수형 중첩 엘레멘트 선언
+    const container = React.createElement("div", null, [Title, Button]); 
+    */
+    // 버튼과 타이틀이 들어간 Container를 root에 넣어 렌더 함
+    ReactDOM.render(<Container />, root);
+  </script>
+</html>
+```
+
+* JSX 문법으로 Babel한테 코드를 넘겨주면 Babel이 헤드에서 브라우저가 읽을 수있는 코드로 변환하여 헤드에 담아둠
+* createElement()로 생성했던 `엘레멘트`를 `컴포넌트`로 볼 수 있음
+
+* 단, 이 컴포넌트는 **반드시 대문자로 시작**해야 함, 그렇지 않으면 JSX 태그가 아니라 HTML 태그라고 인식하기 때문
+
+* 컴포넌트를 불러와서 사용하기 위해서는 `<Title />`과 같은 형식으로 추가하면 됨
