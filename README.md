@@ -382,8 +382,74 @@ function Title() {
 ```
 
 * JSX 문법으로 Babel한테 코드를 넘겨주면 Babel이 헤드에서 브라우저가 읽을 수있는 코드로 변환하여 헤드에 담아둠
-* createElement()로 생성했던 `엘레멘트`를 `컴포넌트`로 볼 수 있음
-
+* 함수 안에 태그로 만든 것을 `엘레멘트`, 해당 함수를 `컴포넌트`로 보면 됨 다시말해 이 과정은 createElement()로 생성했던 `엘레멘트`를 함수에 넣어 만들었고, 얼마든지 재사용이 가능하므로 `컴포넌트`로 볼 수 있음
 * 단, 이 컴포넌트는 **반드시 대문자로 시작**해야 함, 그렇지 않으면 JSX 태그가 아니라 HTML 태그라고 인식하기 때문
-
 * 컴포넌트를 불러와서 사용하기 위해서는 `<Title />`과 같은 형식으로 추가하면 됨
+
+## 4. State
+
+데이터가 저장되는 곳
+
+### 1. 별로 좋지 않은 방법으로 사용하기
+
+#### count 기능 추가하기
+
+1. counter 선언
+
+2. 선언한 변수를 `{변수명}` 형태로 작성하여 사용하기
+
+3. count 함수 선언
+
+4. 이벤트 리스너 추가
+
+   4-1. 이 과정에서 count는 올라가지만 UI 업데이트가(화면에 렌더)가 되지 않아 0으로 유지되는 상태가 됨
+
+   4-2. `ReactDOM.render(<Container />, root);` 함수가 렌더를 해주는 부분이지만  처음 페이지가 로드될 때만 딱 1번만 호출이 되어 업데이트가 되지 않는 것임
+
+5. count 함수에 다시 렌더하는 구문을 추가함
+
+```jsx
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const root = document.getElementById("root");
+    /* 1. counter 선언 */
+    let counter = 0;
+    /* 3. count 함수 선언 */
+    function countUp() {
+      counter = counter + 1;
+      /* 5. 다시 렌더하는 함수를 정의해서 추가 */
+      render();
+    }
+    function render() {
+      ReactDOM.render(<Container />, root);
+    }
+    const Container = () => (
+      <div>
+        {/* 태그 내에서 주석을 하려면 주석을 {} 감싸줘야함 */}
+        {/* 2. 선언한 변수를 사용하려면 그냥 태그 내에서 {변수명} 으로 작성하면 됨 */}
+        <h3>Total clicks: {counter}</h3>
+        {/* 4. 이벤트 리스너 추가 */}
+        <button onClick={countUp}>Click me</button>
+      </div>
+    );
+    render();
+  </script>
+</html>
+```
+
+#### 정리
+
+* 이벤트 콜백 함수에 화면을 렌더해주는 함수를 넣어 그때 그때마다 렌더함
+* 리액트는 렌더를 할 때 직전화면과 변하는 화면을 비교하여 변하는 딱 그 부분만 업데이트 함, 그래서 인터액티브한 서비스를 만들기 좋고, 개발자도구 요소창에서도 바뀌는 부분만 확인 할 수 있어 보기 편함
+
+| 바닐라 JS                                                    | 리액트 JS                                                    |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ![image-20220329165228649](C:\Users\SSAFY\AppData\Roaming\Typora\typora-user-images\image-20220329165228649.png) | ![image-20220329165317889](C:\Users\SSAFY\AppData\Roaming\Typora\typora-user-images\image-20220329165317889.png) |
+
