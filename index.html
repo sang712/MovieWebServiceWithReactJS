@@ -8,62 +8,26 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
     const root = document.getElementById("root");
-    // 화살표 함수형 선언
-    const Title = () => (
-      <h3 id="title" onMouseEnter={() => console.log("Mouse entered")}>
-        "Hello, I'm a span"
-      </h3>
-    );
-    /* 기본 함수형 선언
-    function Title() {
-      return (
-        <h3 id="title" onMouseEnter={() => console.log("Mouse entered")}>
-          "Hello, I'm a span"
-        </h3>
-      );
-    } 
-    */
-    /* 바닐라 JS 형태
-    const h3 = React.createElement(
-      "h3",
-      {
-        id: "title",
-        onMouseEnter: () => console.log("Mouse entered"),
-      },
-      "Hello, I'm a span"
-    ); 
-    */
-    const Button = () => (
-      <button
-        style={{ backgroundColor: "tomato" }}
-        onClick={() => console.log("I'm clicked")}
-      >
-        "Click me"
-      </button>
-    );
-    /* 
-    const btn = React.createElement(
-      "button",
-      {
-        onClick: () => console.log("I'm clicked"),
-        style: {
-          backgroundColor: "tomato",
-        },
-      },
-      "Click me"
-    ); 
-    */
-    // 화살표 함수형 중첩 컴포넌트 선언
+    /* 1. counter 선언 */
+    let counter = 0;
+    /* 3. count 함수 선언 */
+    function countUp() {
+      counter = counter + 1;
+      /* 5. 다시 렌더하는 함수를 정의해서 추가 */
+      render();
+    }
+    function render() {
+      ReactDOM.render(<Container />, root);
+    }
     const Container = () => (
       <div>
-        <Title />
-        <Button />
+        {/* 태그 내에서 주석을 하려면 주석을 {} 감싸줘야함 */}
+        {/* 2. 선언한 변수를 사용하려면 그냥 태그 내에서 {변수명} 으로 작성하면 됨 */}
+        <h3>Total clicks: {counter}</h3>
+        {/* 4. 이벤트 리스너 추가 */}
+        <button onClick={countUp}>Click me</button>
       </div>
     );
-    /* 기존 함수형 중첩 엘레멘트 선언
-    const container = React.createElement("div", null, [Title, Button]); 
-    */
-    // 버튼과 타이틀이 들어간 Container를 root에 넣어 렌더 함
-    ReactDOM.render(<Container />, root);
+    render();
   </script>
 </html>
