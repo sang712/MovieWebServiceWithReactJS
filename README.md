@@ -449,7 +449,49 @@ function Title() {
 * 이벤트 콜백 함수에 화면을 렌더해주는 함수를 넣어 그때 그때마다 렌더함
 * 리액트는 렌더를 할 때 직전화면과 변하는 화면을 비교하여 변하는 딱 그 부분만 업데이트 함, 그래서 인터액티브한 서비스를 만들기 좋고, 개발자도구 요소창에서도 바뀌는 부분만 확인 할 수 있어 보기 편함
 
-| 바닐라 JS                                                    | 리액트 JS                                                    |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| ![image-20220329165228649](C:\Users\SSAFY\AppData\Roaming\Typora\typora-user-images\image-20220329165228649.png) | ![image-20220329165317889](C:\Users\SSAFY\AppData\Roaming\Typora\typora-user-images\image-20220329165317889.png) |
+| 바닐라 JS                                                    | 리액트 JS |
+| ------------------------------------------------------------ | --------- |
+| ![image-20220329165228649](C:\Users\SSAFY\AppData\Roaming\Typora\typora-user-images\image-20220329165228649.png) |           |
+
+
+
+### 2. 좋은 방법으로 사용하기
+
+#### setState() 함수로 count 기능 구현하기
+
+```html
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const root = document.getElementById("root");
+    function App() {
+      /* 1. counter와 counter의 modify 함수 선언 */
+      const [counter, setCounter] = React.useState(0);
+      /* 2. countUp 함수 선언 */
+      const countUp = () => {
+        setCounter(counter + 1);
+      };
+      return (
+      	<div>
+      	  <h3>Total clicks: {counter}</h3>
+      	  <button onClick={countUp}>Click me</button>
+      	</div>
+      );
+    }
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
+```
+
+#### 정리
+
+* React.useState() 함수는 인자를 1개를 받아서 [인자, 인자 정의함수]를 반환하는 함수임
+* useState를 이용해서 만들어진 함수에는 인자를 변환시키는 부분과 렌더를 하는 부분을 포함하고 있음
+* 관례적으로 `const [variableName, setVariableName] = React.useState(0)`과 같은 식으로 정의함
 
