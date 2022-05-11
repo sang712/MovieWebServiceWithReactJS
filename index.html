@@ -8,26 +8,21 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
     const root = document.getElementById("root");
-    /* 1. counter 선언 */
-    let counter = 0;
-    /* 3. count 함수 선언 */
-    function countUp() {
-      counter = counter + 1;
-      /* 5. 다시 렌더하는 함수를 정의해서 추가 */
-      render();
+    function App() {
+      /* 1. counter와 counter의 modify 함수 선언 */
+      const [counter, setCounter] = React.useState(0);
+      /* 2. countUp 함수 선언 */
+      const countUp = () => {
+        // setCounter(counter + 1);
+        setCounter((current) => current + 1);
+      };
+      return (
+        <div>
+          <h3>Total clicks: {counter}</h3>
+          <button onClick={countUp}>Click me</button>
+        </div>
+      );
     }
-    function render() {
-      ReactDOM.render(<Container />, root);
-    }
-    const Container = () => (
-      <div>
-        {/* 태그 내에서 주석을 하려면 주석을 {} 감싸줘야함 */}
-        {/* 2. 선언한 변수를 사용하려면 그냥 태그 내에서 {변수명} 으로 작성하면 됨 */}
-        <h3>Total clicks: {counter}</h3>
-        {/* 4. 이벤트 리스너 추가 */}
-        <button onClick={countUp}>Click me</button>
-      </div>
-    );
-    render();
+    ReactDOM.render(<App />, root);
   </script>
 </html>
