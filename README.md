@@ -475,7 +475,8 @@ function Title() {
       const [counter, setCounter] = React.useState(0);
       /* 2. countUp 함수 선언 */
       const countUp = () => {
-        setCounter(counter + 1);
+        // setCounter(counter + 1);
+        setCounter((current) => current + 1);
       };
       return (
       	<div>
@@ -494,4 +495,8 @@ function Title() {
 * React.useState() 함수는 인자를 1개를 받아서 [인자, 인자 정의함수]를 반환하는 함수임
 * useState를 이용해서 만들어진 함수에는 인자를 변환시키는 부분과 렌더를 하는 부분을 포함하고 있음
 * 관례적으로 `const [variableName, setVariableName] = React.useState(0)`과 같은 식으로 정의함
+* `set함수`를 사용할 때 직전의 값을 사용하고 싶다면 `setCounter(counter + 1)` 보다는 `setCounter(current => current + 1)`로 사용하는 것이 더 정확한 결과를 얻을 수 있음
+  * `set함수`의 첫번째 인자는 set 하기 전의 값을 받아 옴
+  * 관례적으로 첫번째 인자를 괄호로 감싸서 `setCounter((current) => current + 1)` 과 같이 작성
+
 
