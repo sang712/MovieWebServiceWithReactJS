@@ -1,0 +1,114 @@
+<!-- 수정한 코드 -->
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const root = document.getElementById("root");
+    function MinutesToHours() {
+      const [minutes, setMinutes] = React.useState(0);
+      const [hours, setHours] = React.useState(0);
+      const onMinutesChange = (event) => {
+        console.log(event);
+        setMinutes(event.target.value);
+        setHours(event.target.value / 60);
+      };
+      const onHoursChange = (event) => {
+        setMinutes(event.target.value * 60);
+        setHours(event.target.value);
+      };
+      return (
+        <div>
+          <div>
+            <label htmlFor="minutes">Minutes</label>
+            <input
+              value={minutes}
+              id="minutes"
+              placeholder="Minutes"
+              type="number"
+              onChange={onMinutesChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="hours">Hours</label>
+            <input
+              value={hours}
+              id="hours"
+              placeholder="Hours"
+              type="number"
+              onChange={onHoursChange}
+            />
+          </div>
+        </div>
+      );
+    }
+    function App() {
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          <MinutesToHours />
+        </div>
+      );
+    }
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
+<!-- 기본 코드 -->
+<!-- <!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const root = document.getElementById("root");
+    function MinutesToHours() {
+      const [minutes, setMinutes] = React.useState(0);
+      const onChange = (event) => {
+        console.log(event);
+        setMinutes(event.target.value);
+      };
+      const reset = () => setMinutes(0);
+      return (
+        <>
+          <div>
+            <label htmlFor="minutes">Minutes</label>
+            <input
+              value={minutes}
+              id="minutes"
+              placeholder="Minutes"
+              type="number"
+              onChange={onChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="hours">Hours</label>
+            <input
+              value={Math.round(minutes / 60)}
+              id="hours"
+              placeholder="Hours"
+              type="number"
+              disabled
+            />
+          </div>
+          <button onClick={reset}>Reset</button>
+        </>
+      );
+    }
+    function App() {
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          <MinutesToHours />
+        </div>
+      );
+    }
+    ReactDOM.render(<App />, root);
+  </script>
+</html> -->
