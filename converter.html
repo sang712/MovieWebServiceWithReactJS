@@ -1,5 +1,5 @@
 <!-- 수정한 코드 -->
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <body>
     <div id="root"></div>
@@ -22,43 +22,71 @@
         setHours(event.target.value);
       };
       return (
-        <div>
+        <>
           <div>
-            <label htmlFor="minutes">Minutes</label>
-            <input
-              value={minutes}
-              id="minutes"
-              placeholder="Minutes"
-              type="number"
-              onChange={onMinutesChange}
-            />
+            <label htmlFor="minutes">Minutes </label>
+            <input value={minutes} id="minutes" placeholder="Minutes" type="number" onChange={onMinutesChange} />
+            <span>m</span>
           </div>
           <div>
-            <label htmlFor="hours">Hours</label>
-            <input
-              value={hours}
-              id="hours"
-              placeholder="Hours"
-              type="number"
-              onChange={onHoursChange}
-            />
+            <label htmlFor="hours">Hours </label>
+            <input value={hours} id="hours" placeholder="Hours" type="number" onChange={onHoursChange} />
+            <span>h</span>
           </div>
-        </div>
+        </>
+      );
+    }
+    function KilometerToMiles() {
+      const [kilometer, setKilometer] = React.useState(0);
+      const [mile, setMile] = React.useState(0);
+      const onKilometerChange = (event) => {
+        const kilo = event.target.value;
+        setKilometer(kilo);
+        setMile(kilo / 1.609);
+      };
+      const onMileChange = (event) => {
+        const mile = event.target.value;
+        setMile(mile);
+        setKilometer(mile * 1.609);
+      };
+      return (
+        <>
+          <div>
+            <label for="kilometer">Kilometer </label>
+            <input value={kilometer} id="kilometer" placeholder="Kilometer" type="number" onChange={onKilometerChange} />
+            <span>km</span>
+          </div>
+          <div>
+            <label for="mile">Mile </label>
+            <input value={mile} id="mile" placerholder="Mile" type="number" onChange={onMileChange} />
+            <span>mi</span>
+          </div>
+        </>
       );
     }
     function App() {
+      const [index, setIndex] = React.useState("0");
+      const onSelect = (event) => {
+        setIndex(event.target.value);
+      };
       return (
         <div>
           <h1>Super Converter</h1>
-          <MinutesToHours />
+          <select value={index} onChange={onSelect}>
+            <option value="0">Minutes & Hours</option>
+            <option value="1">Kilometers & Miles</option>
+          </select>
+          <hr />
+          {index === "0" ? <MinutesToHours /> : null}
+          {index === "1" ? <KilometerToMiles /> : null}
         </div>
       );
     }
     ReactDOM.render(<App />, root);
   </script>
-</html> -->
+</html>
 <!-- 기본 코드 -->
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
   <body>
     <div id="root"></div>
@@ -67,7 +95,6 @@
   <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
-    const root = document.getElementById("root");
     function MinutesToHours() {
       const [amount, setAmount] = React.useState(0);
       const [inverted, setInverted] = React.useState(false);
@@ -109,14 +136,28 @@
         </>
       );
     }
+    function KilometerToMiles() {
+      return <h3>Kilometer To Miles</h3>;
+    }
     function App() {
+      const [index, setIndex] = React.useState("0");
+      const onSelect = (event) => {
+        setIndex(event.target.value);
+      };
       return (
         <div>
           <h1>Super Converter</h1>
-          <MinutesToHours />
+          <select value={index} onChange={onSelect}>
+            <option value="0">Minutes & Hours</option>
+            <option value="1">Kilometers & Miles</option>
+          </select>
+          <hr />
+          {index === "0" ? <MinutesToHours /> : null}
+          {index === "1" ? <KilometerToMiles /> : null}
         </div>
       );
     }
+    const root = document.getElementById("root");
     ReactDOM.render(<App />, root);
   </script>
-</html>
+</html> -->
