@@ -677,5 +677,150 @@ function Title() {
 * switch 변수 `flipped`에 따라 변하는 값을 3항 연산자 `<조건> ? <true일 때 값> : <false일 때 값>` 으로 표현함
 * Minutes와 Hours 동일한 State를 공유하고 있으므로 기존에 있는 값을 초기화해주는 reset 함수를 만들어 사용하였음
 
+### 4. State 총 정리
+
+#### 세팅하기
+
+1. select, option 선언
+2. select에 사용할 index 선언
+3. select에 사용할 onChange 함수 선언
+4. index에 따라 보여줄 컴포넌트 설정
+
+```html
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    function MinutesToHours() {...}
+    function KilometerToMiles() {
+      return <h3>Kilometer To Miles</h3>;
+    }
+    function App() {
+      /* 2. select에 사용할 index 선언 */
+      const [index, setIndex] = React.useState("0");
+      /* 3. select에 사용할 onChange 함수 선언 */
+      const onSelect = (event) => {
+        setIndex(event.target.value);
+      };
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          /* 1. select, option 선언 */
+          <select value={index} onChange={onSelect}>
+            <option value="0">Minutes & Hours</option>
+            <option value="1">Kilometers & Miles</option>
+          </select>
+          <hr />
+          /* 4. index에 따라 보여줄 컴포넌트 설정 */
+          {index === "0" ? <MinutesToHours /> : null}
+          {index === "1" ? <KilometerToMiles /> : null}
+        </div>
+      );
+    }
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
+```
+
+* value 값을 설정할 때 number 값인지, string 값인지 잘 보고 통일해야함
+  * `const [index, setIndex] = React.useState("0");`에서 숫자로 사용하면 첫 화면에서 원하는 부분이 나오지 않음
+
+#### 킬로미터/마일 converter 만들기
+
+```html
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const root = document.getElementById("root");
+    function MinutesToHours() {
+      const [minutes, setMinutes] = React.useState(0);
+      const [hours, setHours] = React.useState(0);
+      const onMinutesChange = (event) => {
+        console.log(event);
+        setMinutes(event.target.value);
+        setHours(event.target.value / 60);
+      };
+      const onHoursChange = (event) => {
+        setMinutes(event.target.value * 60);
+        setHours(event.target.value);
+      };
+      return (
+        <>
+          <div>
+            <label htmlFor="minutes">Minutes </label>
+            <input value={minutes} id="minutes" placeholder="Minutes" type="number" onChange={onMinutesChange} />
+            <span>m</span>
+          </div>
+          <div>
+            <label htmlFor="hours">Hours </label>
+            <input value={hours} id="hours" placeholder="Hours" type="number" onChange={onHoursChange} />
+            <span>h</span>
+          </div>
+        </>
+      );
+    }
+    function KilometerToMiles() {
+      const [kilometer, setKilometer] = React.useState(0);
+      const [mile, setMile] = React.useState(0);
+      const onKilometerChange = (event) => {
+        const kilo = event.target.value;
+        setKilometer(kilo);
+        setMile(kilo / 1.609);
+      };
+      const onMileChange = (event) => {
+        const mile = event.target.value;
+        setMile(mile);
+        setKilometer(mile * 1.609);
+      };
+      return (
+        <>
+          <div>
+            <label for="kilometer">Kilometer </label>
+            <input value={kilometer} id="kilometer" placeholder="Kilometer" type="number" onChange={onKilometerChange} />
+            <span>km</span>
+          </div>
+          <div>
+            <label for="mile">Mile </label>
+            <input value={mile} id="mile" placerholder="Mile" type="number" onChange={onMileChange} />
+            <span>mi</span>
+          </div>
+        </>
+      );
+    }
+    function App() {
+      const [index, setIndex] = React.useState("0");
+      const onSelect = (event) => {
+        setIndex(event.target.value);
+      };
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          <select value={index} onChange={onSelect}>
+            <option value="0">Minutes & Hours</option>
+            <option value="1">Kilometers & Miles</option>
+          </select>
+          <hr />
+          {index === "0" ? <MinutesToHours /> : null}
+          {index === "1" ? <KilometerToMiles /> : null}
+        </div>
+      );
+    }
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
+```
+
 
 
