@@ -590,3 +590,92 @@ function Title() {
   ```
 
 * 개발모드에서는 작성된 코드 중에 버그로 이어질 수 있는 요소들을 미리 경고하는 검증 코드가 포함되어 있음
+
+### 3-2. boolean 변수 관리하기
+
+#### switch 기능 구현하기
+
+1. switch 버튼 생성
+2. switch 정보를 담을 bool 변수 선언
+3. bool 변수를 switch 하는 함수 선언
+4. switch 적용
+
+```html
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const root = document.getElementById("root");
+    function MinutesToHours() {
+      const [amount, setAmount] = React.useState(0);
+      /* 2. switch 정보를 담을 boolean 변수 선언 */
+      const [flipped, setFlipped] = React.useState(false);
+      const onChange = (event) => {
+        console.log(event);
+        setAmount(event.target.value);
+      };
+      const reset = () => setAmount(0);
+      /* 3. bool 변수를 switch 하는 함수 선언 */ 
+      const onFlip = () => {
+        reset();
+        setFlipped((current) => !current);
+      };
+      return (
+        <>
+          <div>
+            <label htmlFor="minutes">Minutes</label>
+            <input
+              /* 5. switch에 따른 값 변경 */
+              value={flipped ? amount * 60 : amount}
+              id="minutes"
+              placeholder="Minutes"
+              type="number"
+              onChange={onChange}
+              /* 4. switch 적용 */
+              disabled={flipped}
+            />
+          </div>
+          <div>
+            <label htmlFor="hours">Hours</label>
+            <input
+              /* 5. switch에 따른 값 변경 */
+              value={Math.round(flipped ? amount : amount / 60)}
+              id="hours"
+              placeholder="Hours"
+              type="number"
+              onChange={onChange}
+              /* 4. switch 적용 */
+              disabled={!flipped}
+            />
+          </div>
+          <button onClick={reset}>Reset</button>
+          /* 1. switch 버튼 생성 */
+          <button onClick={onFlip}>Flip</button>
+        </>
+      );
+    }
+    function App() {
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          <MinutesToHours />
+        </div>
+      );
+    }
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
+```
+
+* boolean 변수를 사용할 때 변수의 이름에 whether의 의미를 포함하고 있다면 `variable === true` (`~이라면`), `variable === false` (`~가 아니라면`)과 같이 표현하는 것이 눈으로 이해하기에는 좋음
+
+* switch 변수 `flipped`에 따라 변하는 값을 3항 연산자 `<조건> ? <true일 때 값> : <false일 때 값>` 으로 표현함
+* Minutes와 Hours 동일한 State를 공유하고 있으므로 기존에 있는 값을 초기화해주는 reset 함수를 만들어 사용하였음
+
+
+
