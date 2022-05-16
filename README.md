@@ -500,3 +500,93 @@ function Title() {
   * 관례적으로 첫번째 인자를 괄호로 감싸서 `setCounter((current) => current + 1)` 과 같이 작성
 
 
+### 3. input과 같이 사용하기
+
+#### 시간/분 converter 만들기
+
+```html
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const root = document.getElementById("root");
+    function MinutesToHours() {
+      const [minutes, setMinutes] = React.useState(0);
+      const onChange = (event) => {
+        console.log(event);
+        setMinutes(event.target.value);
+      };
+      const reset = () => setMinutes(0);
+      return (
+        <>
+          <div>
+            <label htmlFor="minutes">Minutes</label>
+            <input
+              value={minutes}
+              id="minutes"
+              placeholder="Minutes"
+              type="number"
+              onChange={onChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="hours">Hours</label>
+            <input
+              value={Math.round(minutes / 60)}
+              id="hours"
+              placeholder="Hours"
+              type="number"
+              disabled
+            />
+          </div>
+          <button onClick={reset}>Reset</button>
+        </>
+      );
+    }
+    function App() {
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          <MinutesToHours />
+        </div>
+      );
+    }
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
+```
+
+#### 정리
+
+* JSX에서는 html tag의 프로퍼티 중 클래스를 정해주는 class와  id와 묶어주는 for를 사용하면 안 되고 className과 htmlFor를 사용해야함 이렇게 작성된 코드는 알아서 번역되어 html 상에서는 class, for 로 나타나게 됨
+  * `class -> className`/ `for -> htmlFor`
+* input 태그에 값을 표현할 때는 value 속성에 값을 넣어서, 바뀔 때를 감지할 때는 onChange 속성에 함수를 넣어 사용함
+* onChange 속성에서 불러오는 함수에는 event 인자를 첫 인자로 사용하면 event 객체가 들어가며 `SyntheticBaseEvent`를 반환함
+  * `SyntehticBaseEvent`는 한글로 번역하면 합성 이벤트로, 어떤 한 방식으로 최적화된 일종의 가짜 이벤트임
+  * 진짜 이벤트를 보고 싶으면 `SyntheticBaseEvent`내부에 존재하는 `nativeEvent` 속성을 확인하면 됨
+
+* 해당 이벤트에서 target에 들어가면 onChange 속성을 갖고 있는 태그의 여러 속성을 확인할 수 있고 value에 접근할 수 있음
+* input 태그를 사용하려면
+  * onChange 속성에 함수가 들어있어야 input에 입력하는 내용을 저장할 수 있음
+  * 저장된 내용을 실시간으로 화면에 반영하기(렌더하기) 위해서 value에 useState로 정의한 변수가 있어야 함
+    * onChange 함수가 없으면 input에 입력을 하려고 해도 useState에서 초기 설정한 값 그대로 고정이됨(useState에 초기 설정 값이 없으면 화면상에는 type에 맞는 값이 입력이 되지만 변수에는 저장이 되지 않음)
+
+* useState()에 값 배정을 하지 않고 setState() 함수로 값을 변경하려고 하면 워닝 메시지가 뜸
+  * `> Warning: A component is changing an uncontrolled input to be controlled. This is likely caused by the value changing from undefined to a defined value, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://reactjs.org/link/controlled-components`
+* input 속성에 `disabled`를 추가하면 입력이 되지 않도록 만들 수 있음
+
+#### 추가 내용
+
+* react와 reactDOM을 import하는 script 태그에서 production대신 development를 사용하면 배포 모드에서 개발모드로 전환이 됨
+
+  ```html
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  ```
+
+* 개발모드에서는 작성된 코드 중에 버그로 이어질 수 있는 요소들을 미리 경고하는 검증 코드가 포함되어 있음
