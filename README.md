@@ -459,7 +459,7 @@ function Title() {
 
 #### setState() 함수로 count 기능 구현하기
 
-```html
+```jsx
 <!DOCTYPE html>
 <html>
   <body>
@@ -504,7 +504,7 @@ function Title() {
 
 #### 시간/분 converter 만들기
 
-```html
+```jsx
 <!DOCTYPE html>
 <html>
   <body>
@@ -584,7 +584,7 @@ function Title() {
 
 * react와 reactDOM을 import하는 script 태그에서 production대신 development를 사용하면 배포 모드에서 개발모드로 전환이 됨
 
-  ```html
+  ```jsx
   <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
   ```
@@ -600,7 +600,7 @@ function Title() {
 3. bool 변수를 switch 하는 함수 선언
 4. switch 적용
 
-```html
+```jsx
 <!DOCTYPE html>
 <html>
   <body>
@@ -686,7 +686,7 @@ function Title() {
 3. select에 사용할 onChange 함수 선언
 4. index에 따라 보여줄 컴포넌트 설정
 
-```html
+```jsx
 <!DOCTYPE html>
 <html>
   <body>
@@ -733,7 +733,7 @@ function Title() {
 
 #### 킬로미터/마일 converter 만들기
 
-```html
+```jsx
 <!DOCTYPE html>
 <html>
   <body>
@@ -822,5 +822,60 @@ function Title() {
 </html>
 ```
 
+#### 정리
 
+* `MinutesToHours`와 `KilometersToMiles`를 통해 컴포넌트를 따로 분리하는 방법을 배웠는데 이는 코드 격리(code isolation) 또는 캡슐화(encapsulation)라고 함
+* 이는 분할 정복(문제를 작은 단위로 쪼개서 해결하는 방법)과도 연관이 있는데 기능들을 컴포넌트로 쪼개서 구현하고 합치는 과정으로 분할 정복과 같은(흡사한?) 과정이라고 할 수 있음
 
+## 5. Props
+
+부모 컴포넌트로부터 자식 컴포넌트에 데이터를 보낼 수 있게 해주는 방법
+
+#### 예시
+
+```jsx
+    function SaveBtn() {
+      return <button style={{ backgrounColar: "gold", color: "white", padding: "10px 20px", border: 0, borderRadius: 10 }}>Save Changes</button>;
+      }
+    function ConfirmBtn() {
+      return <button style={{ backgrounColar: "gold", color: "white", padding: "10px 20px", border: 0, borderRadius: 10 }}>Confirm</button>;
+      }    
+    function App() { 
+      return (
+        <div>
+          <SaveBtn />
+          <ConfirmBtn />
+        </div>
+      );
+    }
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+```
+
+* 똑같은 스타일이 적용된 2개의 버튼, 다만 안의 텍스트 내용만 다름
+
+```jsx
+    function Btn(props) {
+      return <button style={{ backgroundColor: "gold", color: "white", padding: "10px 20px", border: 0, borderRadius: 10 }}>{props.something}</button>;
+    }
+    function App() {
+      return (
+        <div>
+          <Btn something="Save Changes" />
+          <Btn something="Confirm" />
+        </div>
+      );
+    }
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+```
+
+* 스타일을 통일하기 위해서 하나의 컴포넌트로 만들고 text만 바꾸는 예시
+
+* 함수형 컴포넌트의 첫번째 인자는 컴포넌트를 사용하는 부분에서 전달된 값들을 받아오는 객체(props), 만약 사용하지 않는다면 `_` 로 위치만 표시하기도 함
+
+* 지난시간에 이용했던 함수를 만들 때 이벤트를 첫 인자로 받아온 것과 유사함. 단, 함수와 함수 컴포넌트는 다름
+
+* props를 받아올 때 props객체로 받아오는 대신, 중괄호를 이용해 props 객체를 풀어서 받아올 수 있음. 단 이 때의 받아오는 변수의 이름은 전달되는 변수의 이름과 같아야함. 덕분에 풀어서 가져올 때 순서는 바뀌어도 상관없음
+
+  `function name({ something }) return <span>{something}</span>`
