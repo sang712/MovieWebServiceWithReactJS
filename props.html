@@ -15,13 +15,14 @@
         </button>
       );
     }
+    const MemorisedBtn = React.memo(Btn);
     function App() {
       const [value, setValue] = React.useState("Save Changes");
       const changeValue = () => setValue("Revert Changes");
       return (
         <div>
-          <Btn text={value} changeValue={changeValue} />
-          <Btn text="Confirm" />
+          <MemorisedBtn text={value} changeValue={changeValue} />
+          <MemorisedBtn text="Confirm" />
         </div>
       );
     }
