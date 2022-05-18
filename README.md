@@ -879,3 +879,33 @@ function Title() {
 * props를 받아올 때 props객체로 받아오는 대신, 중괄호를 이용해 props 객체를 풀어서 받아올 수 있음. 단 이 때의 받아오는 변수의 이름은 전달되는 변수의 이름과 같아야함. 덕분에 풀어서 가져올 때 순서는 바뀌어도 상관없음
 
   `function name({ something }) return <span>{something}</span>`
+
+#### Memo
+
+```jsx
+function Btn({ text, changeValue }) {
+      return (
+        <button onClick={changeValue} style={{ backgroundColor: "gold", color: "white", padding: "10px 20px", border: 0, borderRadius: 10 }}>
+          {text}
+        </button>
+      );
+    }
+	const MemorisedBtn = React.memo(Btn);
+    function App() {
+      const [value, setValue] = React.useState("Save Changes");
+      const changeValue = () => setValue("Revert Changes");
+      return (
+        <div>
+          <MemorisedBtn text={value} changeValue={changeValue} />
+          <MemorisedBtn text="Confirm" />
+        </div>
+      );
+    }
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+```
+
+* 부모-자식 컴포넌트에서 부모 컴포넌트에 state를 선언해 놓고 자식 컴포넌트에서 해당값을 변경하면 부모의 state가 변경된 것이므로 부모 전체가 re-render됨
+* 이것을 막기 위해 React.memo 를 사용함
+* 꼭 사용할 필요는 없음
+* `onst MemorisedBtn = React.memo(Btn);`와 같이 선언하고 기존 태그 대신`<MemorisedBtn text="Confirm" />`와 같이 대체해서 사용하면 됨
