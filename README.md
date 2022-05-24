@@ -833,6 +833,8 @@ function Title() {
 
 #### 예시
 
+* 똑같은 스타일이 적용된 2개의 버튼, 다만 안의 텍스트 내용만 다름
+
 ```jsx
     function SaveBtn() {
       return <button style={{ backgrounColar: "gold", color: "white", padding: "10px 20px", border: 0, borderRadius: 10 }}>Save Changes</button>;
@@ -852,7 +854,7 @@ function Title() {
     ReactDOM.render(<App />, root);
 ```
 
-* 똑같은 스타일이 적용된 2개의 버튼, 다만 안의 텍스트 내용만 다름
+* 스타일을 통일하기 위해서 하나의 컴포넌트로 만들고 text만 바꾸는 예시
 
 ```jsx
     function Btn(props) {
@@ -868,9 +870,22 @@ function Title() {
     }
     const root = document.getElementById("root");
     ReactDOM.render(<App />, root);
-```
+//--------------------------------------------------------//
+    function Btn(something) {
+      return <button style={{ backgroundColor: "gold", color: "white", padding: "10px 20px", border: 0, borderRadius: 10 }}>{something}</button>;
+    }
+    function App() {
+      return (
+        <div>
+          <Btn something="Save Changes" />
+          <Btn something="Confirm" />
+        </div>
+      );
+    }
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
 
-* 스타일을 통일하기 위해서 하나의 컴포넌트로 만들고 text만 바꾸는 예시
+```
 
 * 함수형 컴포넌트의 첫번째 인자는 컴포넌트를 사용하는 부분에서 전달된 값들을 받아오는 객체(props), 만약 사용하지 않는다면 `_` 로 위치만 표시하기도 함
 
@@ -879,6 +894,8 @@ function Title() {
 * props를 받아올 때 props객체로 받아오는 대신, 중괄호를 이용해 props 객체를 풀어서 받아올 수 있음. 단 이 때의 받아오는 변수의 이름은 전달되는 변수의 이름과 같아야함. 덕분에 풀어서 가져올 때 순서는 바뀌어도 상관없음
 
   `function name({ something }) return <span>{something}</span>`
+
+* 보통 풀어서 가져오는 것을 선호함
 
 #### Memo
 
@@ -909,3 +926,28 @@ function Btn({ text, changeValue }) {
 * 이것을 막기 위해 React.memo 를 사용함
 * 꼭 사용할 필요는 없음
 * `onst MemorisedBtn = React.memo(Btn);`와 같이 선언하고 기존 태그 대신`<MemorisedBtn text="Confirm" />`와 같이 대체해서 사용하면 됨
+
+#### Prop Types
+
+* 부모 컴포넌트에서 전달되는 prop의 타입을 지정해주어서 잘못 전달된 값을을 쉽게 캐치할 수 있게 해주는 패키지
+* `<script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>`로 CDN을 작성하여 설치가능
+* 패키지를 설치하고 html 파일을 실행하면 콘솔창에서 `propTypes`오브젝트에 접근할 수 있고 해당 오브젝트가 갖는 타입을 확인할 수 있음
+* 다음과 같이 컴포넌트를 선언한 뒤에 `.propTypes`로 정의 할 수 있고 해당 내용에는 `PropTypes.<타입>` 형태로 작성할 수 있음
+
+```jsx
+    function Btn({ text, changeValue, fontSize }) {
+      return (
+        <button onClick={changeValue} style={{ backgroundColor: "gold", color: "white", padding: "10px 20px", border: 0, borderRadius: 10, fontSize }}>
+          {text}
+        </button>
+      );
+    }
+    Btn.propTypes = {
+      text: PropTypes.string,
+      fontSize: PropTypes.number,
+    };
+```
+
+* 타입이 맞지 않는다면 `Failed prop type: Invalid prop 'fontSize' of type 'string' supplied to 'Btn', expected 'number'.`  과 같이 경고 메시지가 뜸
+
+* 참고: [PropTypes와 함께 하는 타입 검사 – React (reactjs.org)](https://ko.reactjs.org/docs/typechecking-with-proptypes.html)
