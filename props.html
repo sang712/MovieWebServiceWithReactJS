@@ -6,23 +6,28 @@
   </body>
   <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
-    function Btn({ text, changeValue }) {
+    function Btn({ text, changeValue, fontSize }) {
       return (
-        <button onClick={changeValue} style={{ backgroundColor: "gold", color: "white", padding: "10px 20px", border: 0, borderRadius: 10 }}>
+        <button onClick={changeValue} style={{ backgroundColor: "gold", color: "white", padding: "10px 20px", border: 0, borderRadius: 10, fontSize }}>
           {text}
         </button>
       );
     }
+    Btn.propTypes = {
+      text: PropTypes.string.isRquired,
+      fontSize: PropTypes.number.isRquired,
+    };
     const MemorisedBtn = React.memo(Btn);
     function App() {
       const [value, setValue] = React.useState("Save Changes");
       const changeValue = () => setValue("Revert Changes");
       return (
         <div>
-          <MemorisedBtn text={value} changeValue={changeValue} />
-          <MemorisedBtn text="Confirm" />
+          <MemorisedBtn text={value} changeValue={changeValue} fontSize={20} />
+          <MemorisedBtn text="Confirm" fontSize={"198"} />
         </div>
       );
     }
