@@ -951,3 +951,34 @@ function Btn({ text, changeValue }) {
 * 타입이 맞지 않는다면 `Failed prop type: Invalid prop 'fontSize' of type 'string' supplied to 'Btn', expected 'number'.`  과 같이 경고 메시지가 뜸
 
 * 참고: [PropTypes와 함께 하는 타입 검사 – React (reactjs.org)](https://ko.reactjs.org/docs/typechecking-with-proptypes.html)
+
+
+
+## 6. Create React App
+
+Create React App을 이용하면 하나의 css파일안에 style 정보를 몰아 넣을 필요없이 각 컴포넌트 별로 css를 나눠서 설정할 수 있음
+
+예시로
+
+```directory
+folder
+┬-App.js
+└-App.module.css
+```
+
+이렇게 설정한 module.css를 사용하고자하는 js파일에서 import하여 사용할 수 있고
+
+import한 이름에 프로퍼티 접근하듯이 사용할 수 있음
+
+```js
+import myStyle from "./App.module.css"
+
+function App() {
+    return (
+        // 중략
+        <div className={styles.id}>id에는 module.css에서 정의한 id</div>
+    );
+}
+```
+
+이렇게 되면 개발자도구상에서는 {module.css의 이름}-{id의 이름}-{random한 문자열} 형태로 id가 따로 지정이 되며 다른 컴포넌트와 id가 겹칠일이 없어 css도 겹칠일이 없어지게 됨
